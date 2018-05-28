@@ -1,0 +1,138 @@
+package com.tuncerb.controllers;
+
+import com.tuncerb.commands.ProductCommand;
+import com.tuncerb.domain.Product;
+import com.tuncerb.exceptions.ControllerExceptionHandler;
+import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.services.CategoryService;
+import com.tuncerb.services.ImageService;
+import com.tuncerb.services.ProductService;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+/**
+ * Created by tuncer on 26/05/2018.
+ */
+public class ProductControllerTest {
+    @Mock
+    ProductService productService;
+    @Mock
+    CategoryService categoryService;
+    @Mock
+    ImageService imageService;
+
+    ProductController controller;
+
+    MockMvc mockMvc;
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+
+        controller = new ProductController(productService, categoryService, imageService);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
+    }
+
+    @Test
+    public void testGetProduct() throws Exception {
+
+        Product product = new Product();
+        product.setId(1L);
+
+        when(productService.findById(anyLong())).thenReturn(product);
+
+        mockMvc.perform(get("/product/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("product/show"))
+                .andExpect(model().attributeExists("product"));
+    }
+
+    @Test
+    public void testGetProductNotFound() throws Exception {
+        Product product = new Product();
+        product.setId(1L);
+        when(productService.findById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/product/1"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
+    }
+
+    @Test
+    public void testGetProductNumberFormatException() throws Exception {
+        Product product = new Product();
+        product.setId(1L);
+        when(productService.findById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/product/notFound"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+    }
+
+    @Test
+    public void testPostNewProductForm() throws Exception {
+        ProductCommand command = new ProductCommand();
+        command.setId(2L);
+
+        when(productService.saveProductCommand(any())).thenReturn(command);
+
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
+                "text/plain", "Image Byte".getBytes());
+
+        mockMvc.perform(
+                multipart("/product").file(multipartFile)
+                        .param("id", "")
+                        .param("name", "Product Name")
+                        .param("description", "some string")
+        )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+
+        verify(imageService, times(1)).saveImageFile(anyLong(), any());
+    }
+
+    @Test
+    public void testPostNewProductFormValidationFail() throws Exception {
+        ProductCommand command = new ProductCommand();
+        command.setId(2L);
+
+        when(productService.saveProductCommand(any())).thenReturn(command);
+
+        mockMvc.perform(post("/product")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "")
+                        .param("cookTime", "3000")
+
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("product"))
+                .andExpect(view().name("product/form"));
+    }
+
+    @Test
+    public void testGetUpdateView() throws Exception {
+        ProductCommand command = new ProductCommand();
+        command.setId(2L);
+
+        when(productService.findCommandById(anyLong())).thenReturn(command);
+
+        mockMvc.perform(get("/product/1/update"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("product/productform"))
+                .andExpect(model().attributeExists("product"));
+    }
+}

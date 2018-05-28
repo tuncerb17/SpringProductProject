@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ürün</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="form-signin col-md-6 offset-md-3">
+    <form th:object="${product}" th:action="@{/product/}" method="post" id="mainform" enctype="multipart/form-data"  style="margin-top: 20px">
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger form-group">
+            <p>Please Correct Errors Below</p>
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" th:field="*{id}"/>
+            <input type="file" name="files" id="files" multiple />
+            <br/>Selected files:
+            <div id="fileList"></div>
+        </div>
+
+        <div class="form-group"
+             th:class="${#fields.hasErrors('name')} ? 'form-group has-error' : 'form-group'">
+            <label>Product name:</label>
+            <input type="text" class="form-control" th:field="*{name}" th:errorclass="has-error"/>
+            <span class="help-block" th:if="${#fields.hasErrors('name')}">
+                <ul style="list-style-type: none;">
+                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}" style="color: red;"/>
+                </ul>
+            </span>
+        </div>
+        <div class="form-group"
+             th:class="${#fields.hasErrors('description')} ? 'form-group has-error' : 'form-group'">
+            <label>Product Description:</label>
+            <input type="text" class="form-control" th:field="*{description}" th:errorclass="has-error"/>
+            <span class="help-block" th:if="${#fields.hasErrors('description')}">
+                <ul style="list-style-type: none;">
+                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}" style="color: red;"/>
+                </ul>
+            </span>
+        </div>
+
+        <div class="form-group"
+             th:class="${#fields.hasErrors('originalUrl')} ? 'form-group has-error' : 'form-group'">
+            <label>Product originalUrl:</label>
+            <input type="text" class="form-control" th:field="*{originalUrl}" th:errorclass="has-error"/>
+            <span class="help-block" th:if="${#fields.hasErrors('originalUrl')}">
+                <ul style="list-style-type: none;">
+                    <li th:each="err : ${#fields.errors('originalUrl')}" th:text="${err}" style="color: red;"/>
+                </ul>
+            </span>
+        </div>
+
+        <div class="form-group"
+             th:class="${#fields.hasErrors('imageUrl')} ? 'form-group has-error' : 'form-group'">
+            <label>Product imageUrl:</label>
+            <input type="text" class="form-control" th:field="*{imageUrl}" th:errorclass="has-error"/>
+            <span class="help-block" th:if="${#fields.hasErrors('imageUrl')}">
+                <ul style="list-style-type: none;">
+                    <li th:each="err : ${#fields.errors('imageUrl')}" th:text="${err}" style="color: red;"/>
+                </ul>
+            </span>
+        </div>
+        <div class="form-group">
+            <label>Categoryl:</label>
+            <select class="form-control" name="category.id">
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}"
+                        th:selected="${not #lists.isEmpty(product.category)} ? ${category.id.equals(product.category.id)} : '0'"
+                        >val
+                </option>
+            </select>
+            <span class="help-block" th:if="${#fields.hasErrors('category')}">
+                <ul style="list-style-type: none;">
+                    <li th:each="err : ${#fields.errors('category')}" th:text="${err}" style="color: red;"/>
+                </ul>
+            </span>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary col-md-4">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+<script type="text/javascript">
+    var output = document.getElementById('fileList');
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var dvPreview = document.getElementById("fileList");
+            dvPreview.innerHTML = "";
+
+            for (var i = 0; i < input.files.length; ++i) {
+                var file = input.files[i];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = document.createElement("IMG");
+                    img.height = "100";
+                    img.width = "100";
+                    img.src = e.target.result;
+                    dvPreview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+
+        }
+    }
+
+    $("form#mainform input[type='file']").change(function(){
+        readURL(this);
+    });
+
+</script>
+</html>

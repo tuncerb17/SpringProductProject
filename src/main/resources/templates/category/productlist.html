@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ürünler</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!--/*@thymesVar id="categories" type="java.util.List"*/-->
+<!--/*@thymesVar id="category" type="com.tuncerb.domain.Category"*/-->
+<!--/*@thymesVar id="products" type="java.util.List"*/-->
+<!--/*@thymesVar id="product" type="com.tuncerb.domain.Product"*/-->
+<div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3><a href="#" th:href="@{'/'}" >First Project</a></h3>
+        </div>
+
+        <ul class="list-unstyled components" th:if="${not #lists.isEmpty(categories)}">
+            <li th:each="category : ${categories}">
+                <a href="#" th:href="@{'/category/' + ${category.id} + '/product'}" th:text="${category.name}">Kategoriler</a>
+            </li>
+        </ul>
+        <ul class="list-unstyled components">
+            <li sec:authorize="isAnonymous()">
+                <a href="#" th:href="@{'/login'}">Giriş yap</a>
+            </li>
+            <li sec:authorize="isAnonymous()">
+                <a href="#" th:href="@{'/register'}">Üye ol</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="#" th:href="@{'/product/new'}">Ürün Ekle</a>
+            </li>
+            <li sec:authorize="isAuthenticated()">
+                <a href="#" th:href="@{'/logout'}">Çıkış</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Content Holder -->
+    <div id="content">
+        <h1 th:text="${category.name} + ' Ürünleri'"></h1>
+        <div class="row" th:if="${not #lists.isEmpty(category.products)}">
+            <div class="col-md-4" th:each="product : ${category.products}">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="https://picsum.photos/100/180/?random"
+                         th:if="${not #lists.isEmpty(product.images)}"
+                         th:src="${product.images[0].url}"
+                         alt="Card image cap" height="286">
+                    <img class="card-img-top" src="https://picsum.photos/100/180/?random"
+                         th:if="${ #lists.isEmpty(product.images)}"
+                         th:src="${product.imageUrl}"
+                         alt="Card image cap"  height="286">
+
+                    <div class="card-body">
+                        <h5 class="card-title hide-text" th:text="${product.name}" >Card title</h5>
+
+                        <p class="card-text hide-text" th:text="${product.description}">Card text</p>
+                        <a href="#" th:href="${product.originalUrl}" class="btn btn-primary" target="_blank">Şimdi Keşfet</a>
+                        <a href="#" th:href="@{'/product/' + ${product.id}}" class="btn btn-primary" sec:authorize="isAuthenticated()">Düzenle</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

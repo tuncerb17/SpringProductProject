@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Üye Ol</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+</head>
+<body class="text-center">
+<form class="form-signin" th:object="${user}" th:action="@{/register}" method="post">
+    <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Şimdi Üye ol!</h1>
+    <label for="username" class="sr-only">Kullanıcı adı</label>
+    <input type="text" id="username" name="username" class="form-control" placeholder="Kullnıcı adı" required="" autofocus="">
+    <label for="password" class="sr-only">Şifre</label>
+    <input type="password" id="password" name="password" class="form-control" placeholder="Şifre" required="">
+    <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color: #7386D5">Üye Ol</button>
+</form>
+</body>
+</html>

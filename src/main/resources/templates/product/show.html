@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ürün düzenle</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="card card-primary">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-10">
+                <h1 class="card-title" th:text="${product.name}">Ürün Adı</h1>
+            </div>
+            <div class="col-md-2">
+                <a href="#" th:href="@{'/product/' + ${product.id} + '/update'}">Güncelle</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Resimler:</h5>
+            </div>
+            <div class="col-md-3" th:if="${not #lists.isEmpty(product.images)}" th:each="image : ${product.images}">
+                <img src="../../static/css/guacamole400x400WithX.jpg"
+                     th:src="${image.url}"
+                     width="200" height="200">
+                <br/>
+                <a th:href="@{'/product/' + ${product.id} + '/image/'+ ${image.id}}">Sil</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Description:</h5>
+            </div>
+            <div class="col-md-9">
+                <p th:text="${(product.description)}">Ürün Açıklaması</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Category:</h5>
+            </div>
+            <div class="col-md-9">
+                <p th:text="${(product.category.name)}">Ürün Kategorisi</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
