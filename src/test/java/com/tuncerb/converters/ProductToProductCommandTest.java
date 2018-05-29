@@ -19,10 +19,9 @@ public class ProductToProductCommandTest {
     public static final String CATEGORY_NAME = "Product Name";
     ProductToProductCommand convter;
 
-    CategoryToCategoryCommand categoryToCategoryCommand;
     @Before
     public void setUp() throws Exception {
-        convter = new ProductToProductCommand(categoryToCategoryCommand);
+        convter = new ProductToProductCommand(new CategoryToCategoryCommand());
     }
 
     @Test

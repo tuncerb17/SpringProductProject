@@ -27,7 +27,9 @@ public class UserCommandToUser implements Converter<UserCommand, User> {
         final User user = new User();
         user.setId(source.getId());
         user.setUsername(source.getUsername());
-        user.setPassword(passwordEncoder.encode(source.getPassword()));
+        if(source.getPassword() != null){
+            user.setPassword(passwordEncoder.encode(source.getPassword()));
+        }
         return user;
     }
 }

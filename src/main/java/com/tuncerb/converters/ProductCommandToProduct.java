@@ -33,7 +33,9 @@ public class ProductCommandToProduct implements Converter<ProductCommand, Produc
         product.setDescription(productCommand.getDescription());
         product.setOriginalUrl(productCommand.getOriginalUrl());
         product.setImageUrl(productCommand.getImageUrl());
-        product.setCategory(categoryConverter.convert(productCommand.getCategory()));
+        if(productCommand.getCategory() != null){
+            product.setCategory(categoryConverter.convert(productCommand.getCategory()));
+        }
 
 //        if (productCommand.getImages() != null && productCommand.getImages().size() > 0){
 //            productCommand.getImages()
