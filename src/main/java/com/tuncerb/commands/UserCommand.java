@@ -1,5 +1,6 @@
 package com.tuncerb.commands;
 
+import com.tuncerb.constraints.UsernameConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class UserCommand {
     private Long id;
 
     @NotNull
+    @UsernameConstraint
     private String username;
 
     @Column(name = "password")

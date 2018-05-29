@@ -18,13 +18,18 @@
 </head>
 <body class="text-center">
 <form class="form-signin" th:object="${user}" th:action="@{/register}" method="post">
-    <div th:if="${error != null}" class="alert alert-danger form-group">
-        <p th:text="${error}">Please Correct Errors Below</p>
-    </div>
     <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Şimdi Üye ol!</h1>
     <label for="username" class="sr-only">Kullanıcı adı</label>
     <input type="text" id="username" name="username" class="form-control" placeholder="Kullnıcı adı" required="" autofocus="">
+    <div class="form-group"
+         th:class="${#fields.hasErrors('username')} ? 'form-group has-error' : 'form-group'">
+        <span class="help-block" th:if="${#fields.hasErrors('username')}">
+            <ul style="list-style-type: none;">
+                <li th:each="err : ${#fields.errors('username')}" th:text="${err}" style="color: red;"/>
+            </ul>
+        </span>
+    </div>
     <label for="password" class="sr-only">Şifre</label>
     <input type="password" id="password" name="password" class="form-control" placeholder="Şifre" required="">
     <button class="btn btn-lg btn-primary btn-block" type="submit" style="background-color: #7386D5">Üye Ol</button>

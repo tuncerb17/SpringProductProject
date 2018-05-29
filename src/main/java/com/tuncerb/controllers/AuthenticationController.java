@@ -64,9 +64,8 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public String registerUser(@ModelAttribute("user") @Valid UserCommand command, Model model) {
-        if(!userService.isUserNameValid(command.getUsername())){
-            model.addAttribute("error", "Kullanıcı adı zaten kullanılmakta.");
+    public String registerUser(@ModelAttribute("user") @Valid UserCommand command,BindingResult result) {
+        if (result.hasErrors()){
             return  "register";
         }
 
