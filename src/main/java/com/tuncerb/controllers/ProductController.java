@@ -2,8 +2,6 @@ package com.tuncerb.controllers;
 
 
 import com.tuncerb.commands.ProductCommand;
-import com.tuncerb.converters.CategoryToCategoryCommand;
-import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.NotFoundException;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ImageService;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -74,7 +71,7 @@ public class ProductController {
         }
 
         ProductCommand savedCommand = productService.saveProductCommand(command);
-        if (command.getFiles()[0].getSize() > 0){
+        if (command.getFiles() != null && command.getFiles()[0].getSize() > 0){
             imageService.saveImageFile(savedCommand.getId(), command.getFiles());
         }
 

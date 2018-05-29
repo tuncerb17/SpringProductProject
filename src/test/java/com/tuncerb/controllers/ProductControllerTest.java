@@ -1,6 +1,7 @@
 package com.tuncerb.controllers;
 
 import com.tuncerb.commands.ProductCommand;
+import com.tuncerb.domain.Image;
 import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.ControllerExceptionHandler;
 import com.tuncerb.exceptions.NotFoundException;
@@ -65,8 +66,6 @@ public class ProductControllerTest {
 
     @Test
     public void testGetProductNotFound() throws Exception {
-        Product product = new Product();
-        product.setId(1L);
         when(productService.findById(anyLong())).thenThrow(NotFoundException.class);
         mockMvc.perform(get("/product/1"))
                 .andExpect(status().isNotFound())
@@ -75,12 +74,17 @@ public class ProductControllerTest {
 
     @Test
     public void testGetProductNumberFormatException() throws Exception {
-        Product product = new Product();
-        product.setId(1L);
-        when(productService.findById(anyLong())).thenThrow(NotFoundException.class);
         mockMvc.perform(get("/product/notFound"))
                 .andExpect(status().isBadRequest())
                 .andExpect(view().name("400error"));
+    }
+
+    @Test
+    public void testGetNewProductForm() throws Exception {
+        mockMvc.perform(get("/product/new"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("product/form"))
+                .andExpect(model().attributeExists("product"));
     }
 
     @Test
@@ -90,7 +94,7 @@ public class ProductControllerTest {
 
         when(productService.saveProductCommand(any())).thenReturn(command);
 
-        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
+        MockMultipartFile multipartFile = new MockMultipartFile("files", "test.txt",
                 "text/plain", "Image Byte".getBytes());
 
         mockMvc.perform(
@@ -132,7 +136,23 @@ public class ProductControllerTest {
 
         mockMvc.perform(get("/product/1/update"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("product/productform"))
+                .andExpect(view().name("product/form"))
                 .andExpect(model().attributeExists("product"));
+    }
+
+    @Test
+    public void testDeleteProductImage() throws Exception {
+        Product product = new Product();
+        product.setId(1L);
+
+        Image image = new Image();
+        image.setId(1L);
+        image.setProduct(product);
+
+        mockMvc.perform(get("/product/"+product.getId()+"/image/"+image.getId()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/product/" + product.getId()));
+
+        verify(imageService, times(1)).deleteById(anyLong(), anyLong());
     }
 }
