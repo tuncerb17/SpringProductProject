@@ -55,7 +55,7 @@ public class AuthenticationController {
 
     @GetMapping(value = "/register")
     public String showRegistrationPage(Model model) {
-        model.addAttribute("user", new ProductCommand());
+        model.addAttribute("user", new UserCommand());
         return "register";
     }
 
