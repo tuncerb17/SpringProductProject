@@ -14,11 +14,9 @@ import org.springframework.stereotype.Component;
 public class ProductCommandToProduct implements Converter<ProductCommand, Product> {
 
     private final CategoryCommandToCategory categoryConverter;
-    private final ImageCommandToImage imageConverter;
 
-    public ProductCommandToProduct(CategoryCommandToCategory categoryConverter, ImageCommandToImage imageConverter) {
+    public ProductCommandToProduct(CategoryCommandToCategory categoryConverter) {
         this.categoryConverter = categoryConverter;
-        this.imageConverter = imageConverter;
     }
 
     @Synchronized
