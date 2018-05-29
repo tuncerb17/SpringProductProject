@@ -53,10 +53,10 @@ public class IndexControllerTest {
         List<Category> categories = new ArrayList<>();
         categories.add(new Category());
 
-        Category recipe = new Category();
-        recipe.setId(1L);
+        Category category = new Category();
+        category.setId(1L);
 
-        categories.add(recipe);
+        categories.add(category);
 
         when(categoryService.getCategories()).thenReturn(categories);
         when(productService.paginatedProducts(anyInt(), anyInt())).thenReturn(Page.<Product>empty());
