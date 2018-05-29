@@ -2,17 +2,14 @@ package com.tuncerb.controllers;
 
 
 import com.tuncerb.commands.ProductCommand;
-import com.tuncerb.exceptions.NotFoundException;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ImageService;
 import com.tuncerb.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
@@ -86,17 +83,4 @@ public class ProductController {
 
         return "redirect:/product/" + productId;
     }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception){
-        log.error("Handling not found exception");
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("404error");
-        modelAndView.addObject("exception", exception);
-
-        return modelAndView;
-    }
-
-
 }
