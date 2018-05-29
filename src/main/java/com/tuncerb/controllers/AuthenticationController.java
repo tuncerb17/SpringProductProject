@@ -4,6 +4,7 @@ import com.tuncerb.commands.ProductCommand;
 import com.tuncerb.commands.UserCommand;
 
 import com.tuncerb.config.CustomUserDetailsService;
+import com.tuncerb.exceptions.NotFoundException;
 import com.tuncerb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,7 +64,12 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public String registerUser(@ModelAttribute("user") @Valid UserCommand command) {
+    public String registerUser(@ModelAttribute("user") @Valid UserCommand command, Model model) {
+        if(!userService.isUserNameValid(command.getUsername())){
+            model.addAttribute("error", "Kullanıcı adı zaten kullanılmakta.");
+            return  "register";
+        }
+
         userService.saveUserCommand(command);
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(command.getUsername());
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, command.getPassword(), userDetails.getAuthorities());

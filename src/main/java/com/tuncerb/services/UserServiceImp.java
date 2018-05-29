@@ -39,4 +39,11 @@ public class UserServiceImp implements UserService {
 
         return userToUserCommand.convert(savedUser);
     }
+
+    @Override
+    public boolean isUserNameValid(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        return !userOptional.isPresent();
+    }
 }
