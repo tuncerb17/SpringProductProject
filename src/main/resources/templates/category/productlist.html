@@ -69,8 +69,11 @@
                         <h5 class="card-title hide-text" th:text="${product.name}" >Card title</h5>
 
                         <p class="card-text hide-text" th:text="${product.description}">Card text</p>
-                        <a href="#" th:href="${product.originalUrl}" class="btn btn-primary" target="_blank">Şimdi Keşfet</a>
-                        <a href="#" th:href="@{'/product/' + ${product.id}}" class="btn btn-primary" sec:authorize="isAuthenticated()">Düzenle</a>
+                        <div class="row">
+                            <a href="#" th:href="${product.originalUrl}" class="btn btn-primary col-md-5" style="margin: 2px;" target="_blank">Keşfet</a>
+                            <a href="#" th:href="@{'/product/' + ${product.id}}" class="btn btn-primary col-md-4"  style="margin: 2px;" sec:authorize="isAuthenticated()">Düzenle</a>
+                            <a href="#" th:href="@{'/product/' + ${product.id}} + '/delete'" class="btn btn-danger col-md-2" onclick="return confirm('Şimdi silinsin mi?');"  style="margin-top: 2px; margin-bottom: 2px;" sec:authorize="isAuthenticated()">Sil</a>
+                        </div>
                     </div>
                 </div>
             </div>

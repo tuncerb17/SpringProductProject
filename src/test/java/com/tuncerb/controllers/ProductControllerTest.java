@@ -5,6 +5,7 @@ import com.tuncerb.domain.Image;
 import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.ControllerExceptionHandler;
 import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.repositories.ProductRepository;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ImageService;
 import com.tuncerb.services.ProductService;
@@ -35,6 +36,9 @@ public class ProductControllerTest {
     CategoryService categoryService;
     @Mock
     ImageService imageService;
+
+    @Mock
+    ProductRepository productRepository;
 
     ProductController controller;
 
@@ -149,10 +153,27 @@ public class ProductControllerTest {
         image.setId(1L);
         image.setProduct(product);
 
-        mockMvc.perform(get("/product/"+product.getId()+"/image/"+image.getId()))
+        mockMvc.perform(get("/product/" + product.getId() + "/image/" + image.getId()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/product/" + product.getId()));
 
         verify(imageService, times(1)).deleteById(anyLong(), anyLong());
+    }
+
+    @Test
+    public void testDeleteAction() throws Exception {
+
+        mockMvc.perform(get("/product/1/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:null"));
+
+        verify(productService, times(1)).deleteById(anyLong());
+    }
+
+    @Test
+    public void testDeleteProductByIdTestNotFound() throws Exception {
+        Long idToDelete = 2L;
+        when(productService.findById(anyLong())).thenThrow(NotFoundException.class);
+        productService.deleteById(idToDelete);
     }
 }

@@ -75,4 +75,15 @@ public class ProductServiceImp implements ProductService{
 
         return productRepository.findAllByOrderByIdDesc(productPageReq);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (!productOptional.isPresent()) {
+            throw new NotFoundException("Product Not Found. For ID value: " + id.toString() );
+        }
+
+        productRepository.deleteById(id);
+    }
 }

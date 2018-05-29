@@ -16,4 +16,5 @@ public interface ProductService {
     ProductCommand findCommandById(Long id);
     ProductCommand saveProductCommand(ProductCommand command);
     Page<Product> paginatedProducts(int pageNumber, int pageSize);
+    void deleteById(Long id);
 }

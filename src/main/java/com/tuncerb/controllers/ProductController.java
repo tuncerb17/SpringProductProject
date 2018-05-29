@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -82,5 +83,11 @@ public class ProductController {
         imageService.deleteById(Long.valueOf(productId), Long.valueOf(imageId));
 
         return "redirect:/product/" + productId;
+    }
+
+    @GetMapping("product/{id}/delete")
+    public String deleteById(@PathVariable String id,HttpServletRequest request){
+        productService.deleteById(Long.valueOf(id));
+        return "redirect:" + request.getHeader("Referer");
     }
 }

@@ -106,4 +106,18 @@ public class ProductServiceImpTest {
 
         productService.findById(1L);
     }
+
+    @Test
+    public void testDeleteById() throws Exception {
+        Long idToDelete = 2L;
+        Product product = new Product();
+        product.setId(idToDelete);
+
+        Optional<Product> optionalProduct = Optional.of(product);
+        when(productRepository.findById(idToDelete)).thenReturn(optionalProduct);
+
+        productService.deleteById(idToDelete);
+
+        verify(productRepository, times(1)).deleteById(anyLong());
+    }
 }
