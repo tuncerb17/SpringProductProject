@@ -1,16 +1,20 @@
 package com.tuncerb.controllers;
 
 import com.tuncerb.domain.Category;
+import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.ControllerExceptionHandler;
 import com.tuncerb.exceptions.NotFoundException;
 import com.tuncerb.services.CategoryService;
+import com.tuncerb.services.ProductService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,6 +29,9 @@ public class CategoryControllerTest {
     @Mock
     CategoryService categoryService;
 
+    @Mock
+    ProductService productService;
+
     CategoryController controller;
 
     MockMvc mockMvc;
@@ -33,7 +40,7 @@ public class CategoryControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        controller = new CategoryController(categoryService);
+        controller = new CategoryController(categoryService, productService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new ControllerExceptionHandler())
                 .build();
@@ -45,6 +52,7 @@ public class CategoryControllerTest {
         category.setId(1L);
 
         when(categoryService.findById(anyLong())).thenReturn(category);
+        when(productService.paginatedCategoryProducts(anyLong(),anyInt(), anyInt())).thenReturn(Page.<Product>empty());
 
         mockMvc.perform(get("/category/1/product"))
                 .andExpect(status().isOk())

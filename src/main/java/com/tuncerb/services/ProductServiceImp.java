@@ -71,9 +71,18 @@ public class ProductServiceImp implements ProductService{
         if(pageNumber < 1){
             pageNumber = 1;
         }
-        PageRequest productPageReq = PageRequest.of(pageNumber -1, pageSize);
+        PageRequest productPageReq = PageRequest.of(pageNumber - 1, pageSize);
 
         return productRepository.findAllByOrderByIdDesc(productPageReq);
+    }
+
+    public Page<Product> paginatedCategoryProducts(Long categoryId,int pageNumber, int pageSize) {
+        if(pageNumber < 1){
+            pageNumber = 1;
+        }
+        PageRequest productPageReq = PageRequest.of(pageNumber -1, pageSize);
+
+        return productRepository.findAllByCategoryIdOrderByIdDesc(categoryId,productPageReq);
     }
 
     @Override

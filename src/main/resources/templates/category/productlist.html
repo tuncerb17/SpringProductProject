@@ -55,8 +55,8 @@
     <!-- Page Content Holder -->
     <div id="content">
         <h1 th:text="${category.name} + ' Ürünleri'"></h1>
-        <div class="row" th:if="${not #lists.isEmpty(category.products)}">
-            <div class="col-md-4" th:each="product : ${category.products}">
+        <div class="row" th:if="${products.hasContent()}">
+            <div class="col-md-4" th:each="product : ${products.getContent()}" style="margin-top: 10px;">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="https://picsum.photos/100/180/?random"
                          th:if="${not #lists.isEmpty(product.images)}"
@@ -70,7 +70,7 @@
                     <div class="card-body">
                         <h5 class="card-title hide-text" th:text="${product.name}" >Card title</h5>
 
-                        <p class="card-text hide-text" th:text="${product.description}">Card text</p>
+                        <p class="card-text hide-text" th:text="${product.description}">Cart Content</p>
                         <div class="row">
                             <a href="#" th:href="${product.originalUrl}" class="btn btn-primary col-md-5" style="margin: 2px;" target="_blank">Keşfet</a>
                             <a href="#" th:href="@{'/product/' + ${product.id}}" class="btn btn-primary col-md-4"  style="margin: 2px;" sec:authorize="isAuthenticated()">Düzenle</a>
@@ -81,6 +81,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <!-- Pagination Bar -->
+            <nav th:fragment="paginationbar">
+                <ul class="pagination">
+                    <li th:class="${products.isFirstPage()}? 'disabled' : 'page-item'">
+                        <a class="page-link" th:if="${not products.isFirstPage()}" th:href="@{${products.url}(page=1)}">← İlk</a>
+                    </li>
+                    <li th:class="${products.isHasPreviousPage()}? 'page-item' : 'disabled'">
+                        <a class="page-link" th:if="${products.isHasPreviousPage()}" th:href="@{${products.url}(page=${products.number-1})}">« Önceki</a>
+                    </li>
+                    <li th:each="item : ${products.getItems()}" th:class="${item.current}? 'sr-only' : 'page-item'">
+                        <a class="page-link" th:if="${not item.current}" th:href="@{${products.url}(page=${item.number})}" th:text="${item.number}"></a>
+                    </li>
+                    <li th:class="${products.isHasNextPage()}? 'page-item' : 'disabled'">
+                        <a class="page-link" th:if="${products.isHasNextPage()}" th:href="@{${products.url}(page=${products.number+1})}">Sonraki »</a>
+                    </li>
+                    <li th:class="${products.isLastPage()}? 'disabled' : 'page-item'">
+                        <a class="page-link" th:if="${not products.isLastPage()}" th:href="@{${products.url}(page=${products.getTotalPages()})}">Son →</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
