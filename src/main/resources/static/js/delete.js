@@ -6,7 +6,7 @@ $(function () {
     });
 });
 
-function removeProduct(url,formId){
+function remove(url,formId){
     if (confirm("Bu işlemi gerçekleştirmek istediğine emin misin?")) {
         $.ajax({
             type: "DELETE",

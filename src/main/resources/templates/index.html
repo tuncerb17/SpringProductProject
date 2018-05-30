@@ -11,7 +11,7 @@
           th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
 
     <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/delete-products.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/delete.js}" ></script>
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 
@@ -74,7 +74,7 @@
                             <a href="#" th:href="${product.originalUrl}" class="btn btn-primary col-md-5" style="margin: 2px;" target="_blank">Keşfet</a>
                             <a href="#" th:href="@{'/product/' + ${product.id}}" class="btn btn-primary col-md-4"  style="margin: 2px;" sec:authorize="isAuthenticated()">Düzenle</a>
                             <form th:action="@{'/product/' + ${product.id} }" th:id="'deleteForm_' + ${product.id}" method="post" sec:authorize="isAuthenticated()">
-                                <a href="javascript:{}" class="btn btn-danger" style="margin-top: 2px; margin-bottom: 2px;" th:onclick="'removeProduct(\'' + @{'/product/' + ${product.id}} +'\',\''+'deleteForm_'+${product.id} + '\');'" onclick="document.getElementById('my_form').submit();">sil</a>
+                                <a href="javascript:{}" class="btn btn-danger" style="margin-top: 2px; margin-bottom: 2px;" th:onclick="'remove(\'' + @{'/product/' + ${product.id}} +'\',\''+'deleteForm_'+${product.id} + '\');'">sil</a>
                             </form>
                         </div>
                     </div>

@@ -77,13 +77,16 @@ public class ProductController {
         return "redirect:/";
     }
 
-    @GetMapping("product/{productId}/image/{imageId}")
+    @DeleteMapping("product/{productId}/image/{imageId}")
+    @ResponseBody
     public String deleteProductImage (@PathVariable String productId,
                                    @PathVariable String imageId){
 
         imageService.deleteById(Long.valueOf(productId), Long.valueOf(imageId));
 
-        return "redirect:/product/" + productId;
+        JSONObject obj = new JSONObject();
+        obj.put("message", "Silme işlemi başarılı");
+        return obj.toString();
     }
 
     @DeleteMapping("product/{id}")

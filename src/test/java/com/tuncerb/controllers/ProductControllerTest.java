@@ -152,9 +152,8 @@ public class ProductControllerTest {
         image.setId(1L);
         image.setProduct(product);
 
-        mockMvc.perform(get("/product/" + product.getId() + "/image/" + image.getId()))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/product/" + product.getId()));
+        mockMvc.perform(delete("/product/" + product.getId() + "/image/" + image.getId()))
+                .andExpect(status().isOk());
 
         verify(imageService, times(1)).deleteById(anyLong(), anyLong());
     }
