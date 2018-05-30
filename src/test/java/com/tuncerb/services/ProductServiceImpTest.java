@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,5 +121,18 @@ public class ProductServiceImpTest {
         productService.deleteById(idToDelete);
 
         verify(productRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testDeleteByIdNotFound() throws Exception {
+        Long idToDelete = 2L;
+
+        Optional<Product> optionalProduct = Optional.empty();
+        when(productRepository.findById(idToDelete)).thenReturn(optionalProduct);
+
+        productService.deleteById(idToDelete);
+
+        verify(productRepository, times(1)).deleteById(anyLong());
+
     }
 }

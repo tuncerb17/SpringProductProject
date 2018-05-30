@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -51,5 +52,17 @@ public class UserServiceImpTest {
 
         assertNotNull("Null user returned", userReturned);
         verify(userRepository, times(1)).findByUsername(anyString());
+    }
+
+    @Test
+    public void validateUsernameTest() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("userName");
+        Optional<User> userOptional = Optional.of(user);
+
+        when(userRepository.findByUsername(anyString())).thenReturn(userOptional);
+
+        assertFalse(userService.isUserNameValid("userName"));
     }
 }

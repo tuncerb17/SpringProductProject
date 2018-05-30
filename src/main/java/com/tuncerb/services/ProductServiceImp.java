@@ -1,6 +1,7 @@
 package com.tuncerb.services;
 
 import com.tuncerb.commands.ProductCommand;
+import com.tuncerb.constants.PaginationConstants;
 import com.tuncerb.converters.ProductCommandToProduct;
 import com.tuncerb.converters.ProductToProductCommand;
 import com.tuncerb.domain.Category;
@@ -71,7 +72,7 @@ public class ProductServiceImp implements ProductService{
         if(pageNumber < 1){
             pageNumber = 1;
         }
-        PageRequest productPageReq = PageRequest.of(pageNumber - 1, pageSize);
+        PageRequest productPageReq = PageRequest.of(pageNumber - 1, pageSize != 0 ? pageSize: PaginationConstants.ITEM_COUNT);
 
         return productRepository.findAllByOrderByIdDesc(productPageReq);
     }
@@ -80,7 +81,7 @@ public class ProductServiceImp implements ProductService{
         if(pageNumber < 1){
             pageNumber = 1;
         }
-        PageRequest productPageReq = PageRequest.of(pageNumber -1, pageSize);
+        PageRequest productPageReq = PageRequest.of(pageNumber -1, pageSize != 0 ? pageSize: PaginationConstants.ITEM_COUNT);
 
         return productRepository.findAllByCategoryIdOrderByIdDesc(categoryId,productPageReq);
     }

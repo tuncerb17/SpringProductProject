@@ -63,8 +63,7 @@ public class CategoryControllerTest {
 
     @Test
     public void testGetUnknownCategoryProductsPage() throws Exception {
-        when(categoryService.findById(anyLong())).thenThrow(NotFoundException.class);
-        mockMvc.perform(get("/category/1/product"))
+        mockMvc.perform(get("/category/-1/product"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("404error"));
     }
