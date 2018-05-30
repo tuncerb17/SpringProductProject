@@ -6,6 +6,7 @@ import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ImageService;
 import com.tuncerb.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -85,9 +86,12 @@ public class ProductController {
         return "redirect:/product/" + productId;
     }
 
-    @GetMapping("product/{id}/delete")
-    public String deleteById(@PathVariable String id,HttpServletRequest request){
+    @DeleteMapping("product/{id}")
+    @ResponseBody
+    public String deleteById(@PathVariable String id,HttpServletRequest request) {
         productService.deleteById(Long.valueOf(id));
-        return "redirect:" + request.getHeader("Referer");
+        JSONObject obj = new JSONObject();
+        obj.put("message", "Silme işlemi başarılı");
+        return obj.toString();
     }
 }

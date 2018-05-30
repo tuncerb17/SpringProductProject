@@ -9,6 +9,7 @@ import com.tuncerb.repositories.ProductRepository;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ImageService;
 import com.tuncerb.services.ProductService;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -21,9 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -163,9 +162,7 @@ public class ProductControllerTest {
     @Test
     public void testDeleteAction() throws Exception {
 
-        mockMvc.perform(get("/product/1/delete"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:null"));
+        mockMvc.perform(delete("/product/1")).andExpect(status().isOk());
 
         verify(productService, times(1)).deleteById(anyLong());
     }
