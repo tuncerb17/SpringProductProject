@@ -7,7 +7,7 @@ $(function () {
 });
 
 function remove(url,formId){
-    if (confirm("Bu işlemi gerçekleştirmek istediğine emin misin?")) {
+    if (confirm("Are you sure?")) {
         $.ajax({
             type: "DELETE",
             url: url,

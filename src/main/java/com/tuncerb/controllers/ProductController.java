@@ -84,17 +84,18 @@ public class ProductController {
 
         imageService.deleteById(Long.valueOf(productId), Long.valueOf(imageId));
 
-        JSONObject obj = new JSONObject();
-        obj.put("message", "Silme işlemi başarılı");
-        return obj.toString();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", "The deletion was successful.");
+        return jsonObject.toString();
     }
 
     @DeleteMapping("product/{id}")
     @ResponseBody
     public String deleteById(@PathVariable String id,HttpServletRequest request) {
         productService.deleteById(Long.valueOf(id));
-        JSONObject obj = new JSONObject();
-        obj.put("message", "Silme işlemi başarılı");
-        return obj.toString();
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", "The deletion was successful.");
+        return jsonObject.toString();
     }
 }

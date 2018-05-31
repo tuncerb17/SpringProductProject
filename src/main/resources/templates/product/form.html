@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
-    <title>Ürün</title>
+    <title>Product</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
@@ -72,7 +72,7 @@
             </span>
         </div>
         <div class="form-group">
-            <label>Categoryl:</label>
+            <label>Category:</label>
             <select class="form-control" name="category.id">
                 <option th:each="category : ${categories}"
                         th:value="${category.id}"

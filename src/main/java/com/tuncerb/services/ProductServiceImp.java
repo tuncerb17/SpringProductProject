@@ -4,21 +4,15 @@ import com.tuncerb.commands.ProductCommand;
 import com.tuncerb.constants.PaginationConstants;
 import com.tuncerb.converters.ProductCommandToProduct;
 import com.tuncerb.converters.ProductToProductCommand;
-import com.tuncerb.domain.Category;
-import com.tuncerb.domain.Image;
 import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.NotFoundException;
 import com.tuncerb.repositories.ProductRepository;
-import com.tuncerb.wrappers.PageWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Created by tuncer on 24/05/2018.

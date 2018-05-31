@@ -40,19 +40,19 @@ public class DatabaseBootstrap implements ApplicationListener<ContextRefreshedEv
         List<Category> categories = new ArrayList<>();
 
         Category category=new Category();
-        category.setName("Giyim");
+        category.setName("Clothing");
         categories.add(category);
 
         Category category2=new Category();
-        category2.setName("Çanta");
+        category2.setName("Bag");
         categories.add(category2);
 
         Category category3=new Category();
-        category3.setName("Ayakkabı");
+        category3.setName("Shoe");
         categories.add(category3);
 
         Category category4=new Category();
-        category4.setName("Aksesuar");
+        category4.setName("Accessory");
         categories.add(category4);
 
         return categories;
@@ -64,8 +64,8 @@ public class DatabaseBootstrap implements ApplicationListener<ContextRefreshedEv
         categories.forEach(category -> {
             for (int i = 1; i < 7; i++) {
                 Product product = new Product();
-                product.setName("Ürün " + category.getId() * i);
-                product.setDescription( category.getName() + " kategorisinde bulabilirsiniz.");
+                product.setName("Product " + category.getId() * i);
+                product.setDescription( category.getName() + " category product");
                 product.setOriginalUrl("https://www.ebay.com/");
                 product.setImageUrl("https://i.ebayimg.com/images/g/cjAAAOSw3h1ZSLzx/s-l500.jpg");
                 product.setCategory(category);

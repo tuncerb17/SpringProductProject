@@ -4,7 +4,6 @@ import com.tuncerb.constants.PaginationConstants;
 import com.tuncerb.domain.Category;
 import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.NotFoundException;
-import com.tuncerb.repositories.ProductRepository;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ProductService;
 import com.tuncerb.wrappers.PageWrapper;
@@ -13,8 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Optional;
 
 /**
  * Created by tuncer on 24/05/2018.
@@ -43,7 +40,6 @@ public class CategoryController {
 
         model.addAttribute("products", products);
 
-        //o kategori
         model.addAttribute("category", category);
 
         return "category/productlist";

@@ -38,11 +38,6 @@ public class ProductToProductCommand implements Converter<Product, ProductComman
         }
 
 
-//        if (product.getImages() != null && product.getImages().size() > 0){
-//            product.getImages()
-//                    .forEach(image -> productCommand.getImages().add(imageConverter.convert(image)));
-//        }
-
         return productCommand;
     }
 }

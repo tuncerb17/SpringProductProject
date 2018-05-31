@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
-    <title>Ürün düzenle</title>
+    <title>Product Show</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
@@ -22,17 +22,17 @@
     <div class="card-header">
         <div class="row">
             <div class="col-md-10">
-                <h1 class="card-title" th:text="${product.name}">Ürün Adı</h1>
+                <h1 class="card-title" th:text="${product.name}">Product Name</h1>
             </div>
             <div class="col-md-2">
-                <a href="#" th:href="@{'/product/' + ${product.id} + '/update'}">Güncelle</a>
+                <a href="#" th:href="@{'/product/' + ${product.id} + '/update'}">Edit</a>
             </div>
         </div>
     </div>
     <div class="card-body">
         <div class="row">
             <div class="col-md-3">
-                <h5>Resimler:</h5>
+                <h5>Photos:</h5>
             </div>
             <div class="col-md-3" th:if="${not #lists.isEmpty(product.images)}" th:each="image : ${product.images}">
                 <img src="../../static/css/guacamole400x400WithX.jpg"
@@ -40,7 +40,7 @@
                      width="200" height="200">
                 <br/>
                 <form th:action="@{'/product/' + ${product.id} + '/image/'+ ${image.id}}" th:id="'deleteImageForm_' + ${image.id}" method="post">
-                    <a href="javascript:{}" class="btn btn-danger" style="margin-top: 2px; margin-bottom: 2px;" th:onclick="'remove(\'' + @{'/product/' + ${product.id} + '/image/'+ ${image.id}} +'\',\''+'deleteImageForm_'+${image.id} + '\');'">sil</a>
+                    <a href="javascript:{}" class="btn btn-danger" style="margin-top: 2px; margin-bottom: 2px;" th:onclick="'remove(\'' + @{'/product/' + ${product.id} + '/image/'+ ${image.id}} +'\',\''+'deleteImageForm_'+${image.id} + '\');'">Delete</a>
                 </form>
             </div>
         </div>
@@ -49,7 +49,7 @@
                 <h5>Description:</h5>
             </div>
             <div class="col-md-9">
-                <p th:text="${(product.description)}">Ürün Açıklaması</p>
+                <p th:text="${(product.description)}">Product Description</p>
             </div>
         </div>
         <div class="row">
@@ -57,7 +57,7 @@
                 <h5>Category:</h5>
             </div>
             <div class="col-md-9">
-                <p th:text="${(product.category.name)}">Ürün Kategorisi</p>
+                <p th:text="${(product.category.name)}">Product Category</p>
             </div>
         </div>
     </div>

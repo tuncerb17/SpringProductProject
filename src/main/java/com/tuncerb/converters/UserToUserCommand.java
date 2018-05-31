@@ -2,10 +2,8 @@ package com.tuncerb.converters;
 
 import com.tuncerb.commands.UserCommand;
 import com.tuncerb.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
