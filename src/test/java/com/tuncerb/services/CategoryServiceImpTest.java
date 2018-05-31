@@ -1,7 +1,7 @@
 package com.tuncerb.services;
 
 import com.tuncerb.domain.Category;
-import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.exceptions.ContentNotFoundException;
 import com.tuncerb.repositories.CategoryRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,7 +67,7 @@ public class CategoryServiceImpTest {
         verify(categoryRepository, never()).findAll();
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test(expected = ContentNotFoundException.class)
     public void getCategoryByIdTestNotFound() throws Exception {
 
         Optional<Category> categoryOptional = Optional.empty();

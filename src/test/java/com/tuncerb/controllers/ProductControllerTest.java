@@ -4,12 +4,11 @@ import com.tuncerb.commands.ProductCommand;
 import com.tuncerb.domain.Image;
 import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.ControllerExceptionHandler;
-import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.exceptions.ContentNotFoundException;
 import com.tuncerb.repositories.ProductRepository;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ImageService;
 import com.tuncerb.services.ProductService;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -69,7 +68,7 @@ public class ProductControllerTest {
 
     @Test
     public void testGetProductNotFound() throws Exception {
-        when(productService.findById(anyLong())).thenThrow(NotFoundException.class);
+        when(productService.findById(anyLong())).thenThrow(ContentNotFoundException.class);
         mockMvc.perform(get("/product/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("404error"));
@@ -169,7 +168,7 @@ public class ProductControllerTest {
     @Test
     public void testDeleteProductByIdTestNotFound() throws Exception {
         Long idToDelete = 2L;
-        when(productService.findById(anyLong())).thenThrow(NotFoundException.class);
+        when(productService.findById(anyLong())).thenThrow(ContentNotFoundException.class);
         productService.deleteById(idToDelete);
     }
 }

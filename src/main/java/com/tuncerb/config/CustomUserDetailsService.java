@@ -18,7 +18,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userService.findByUsername(username)
+        return userService
+                .findByUsername(username)
                 .map(CustomUserDetails::of)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }

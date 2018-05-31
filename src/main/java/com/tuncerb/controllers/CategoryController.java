@@ -3,7 +3,6 @@ package com.tuncerb.controllers;
 import com.tuncerb.constants.PaginationConstants;
 import com.tuncerb.domain.Category;
 import com.tuncerb.domain.Product;
-import com.tuncerb.exceptions.NotFoundException;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ProductService;
 import com.tuncerb.wrappers.PageWrapper;
@@ -33,9 +32,7 @@ public class CategoryController {
         model.addAttribute("categories", categoryService.getCategories());
 
         Category category = categoryService.findById(Long.valueOf(categoryId));
-        if (category == null) {
-            throw new NotFoundException("Category Not Found. For ID value: " + categoryId );
-        }
+
         PageWrapper<Product> products = new PageWrapper<Product>(productService.paginatedCategoryProducts(Long.valueOf(categoryId), pageNumber, PaginationConstants.ITEM_COUNT),"");
 
         model.addAttribute("products", products);

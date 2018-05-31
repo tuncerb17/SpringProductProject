@@ -91,7 +91,7 @@ public class ProductController {
 
     @DeleteMapping("product/{id}")
     @ResponseBody
-    public String deleteById(@PathVariable String id,HttpServletRequest request) {
+    public String deleteById(@PathVariable String id) {
         productService.deleteById(Long.valueOf(id));
 
         JSONObject jsonObject = new JSONObject();

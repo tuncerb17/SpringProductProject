@@ -4,23 +4,16 @@
     <meta charset="UTF-8"/>
     <title>404 Not Found Error</title>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-          crossorigin="anonymous"
-          th:href="@{/webjars/bootstrap/4.1.0/css/bootstrap.min.css}">
-
-    <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.1.0/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 </head>
 <body>
 <div class="container-fluid" style="margin-top: 20px">
-    <div class="row">
-        <div class="col-md-6 offset-3">
-            <h1>404 Not Found</h1>
-            <p th:text="${exception.getMessage()}"></p>
+    <div class="error">
+        <p class="p">4</p>
+        <p class="p">0</p>
+        <p class="p">4</p>
+        <div class="page-ms">
+            <p class="page-msg" th:text="${exception.getMessage()}"> Oops, the page you're looking for Disappeared </p>
         </div>
     </div>
 </div>

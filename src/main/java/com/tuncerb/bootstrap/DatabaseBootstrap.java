@@ -39,21 +39,21 @@ public class DatabaseBootstrap implements ApplicationListener<ContextRefreshedEv
 
         List<Category> categories = new ArrayList<>();
 
-        Category category=new Category();
-        category.setName("Clothing");
-        categories.add(category);
+        Category clothingCategory =new Category();
+        clothingCategory.setName("Clothing");
+        categories.add(clothingCategory);
 
-        Category category2=new Category();
-        category2.setName("Bag");
-        categories.add(category2);
+        Category bagCategory =new Category();
+        bagCategory.setName("Bag");
+        categories.add(bagCategory);
 
         Category category3=new Category();
         category3.setName("Shoe");
         categories.add(category3);
 
-        Category category4=new Category();
-        category4.setName("Accessory");
-        categories.add(category4);
+        Category accessoryCategory =new Category();
+        accessoryCategory.setName("Accessory");
+        categories.add(accessoryCategory);
 
         return categories;
     }

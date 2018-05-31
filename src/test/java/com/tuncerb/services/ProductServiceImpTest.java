@@ -4,14 +4,12 @@ import com.tuncerb.commands.ProductCommand;
 import com.tuncerb.converters.ProductCommandToProduct;
 import com.tuncerb.converters.ProductToProductCommand;
 import com.tuncerb.domain.Product;
-import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.exceptions.ContentNotFoundException;
 import com.tuncerb.repositories.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +97,7 @@ public class ProductServiceImpTest {
         verify(productRepository, times(2)).findById(anyLong());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test(expected = ContentNotFoundException.class)
     public void getProductByIdTestNotFound() throws Exception {
 
         Optional<Product> productOptional = Optional.empty();
@@ -123,7 +121,7 @@ public class ProductServiceImpTest {
         verify(productRepository, times(1)).deleteById(anyLong());
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test(expected = ContentNotFoundException.class)
     public void testDeleteByIdNotFound() throws Exception {
         Long idToDelete = 2L;
 

@@ -1,7 +1,7 @@
 package com.tuncerb.services;
 
 import com.tuncerb.domain.Category;
-import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.exceptions.ContentNotFoundException;
 import com.tuncerb.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class CategoryServiceImp implements CategoryService {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
 
         if (!categoryOptional.isPresent()) {
-            throw new NotFoundException("Category Not Found. For ID value: " + id.toString());
+            throw new ContentNotFoundException("Category Not Found. For ID value: " + id.toString());
         }
 
         return categoryOptional.get();

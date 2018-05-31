@@ -1,10 +1,8 @@
 package com.tuncerb.controllers;
 
-import com.tuncerb.commands.ProductCommand;
 import com.tuncerb.commands.UserCommand;
 
 import com.tuncerb.config.CustomUserDetailsService;
-import com.tuncerb.exceptions.NotFoundException;
 import com.tuncerb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,8 +14,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,10 +46,7 @@ public class AuthenticationController {
 
     @GetMapping(value = "/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
+        logoutIfAuthenticated(request, response);
         return "redirect:/";
     }
 
@@ -70,14 +63,26 @@ public class AuthenticationController {
         }
 
         userService.saveUserCommand(command);
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(command.getUsername());
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, command.getPassword(), userDetails.getAuthorities());
-
-        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = getUsernamePasswordAuthenticationToken(command);
 
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
         return "redirect:/";
+    }
+
+    private UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken(@ModelAttribute("user") @Valid UserCommand command) {
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(command.getUsername());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, command.getPassword(), userDetails.getAuthorities());
+
+        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        return usernamePasswordAuthenticationToken;
+    }
+
+    private void logoutIfAuthenticated(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
     }
 }

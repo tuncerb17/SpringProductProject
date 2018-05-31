@@ -30,7 +30,7 @@ public class ControllerExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(ContentNotFoundException.class)
     public ModelAndView handleNotFound(Exception exception){
         log.error("Handling not found exception");
         ModelAndView modelAndView = new ModelAndView();

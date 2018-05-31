@@ -60,11 +60,11 @@
                     <img class="card-img-top" src="https://picsum.photos/100/180/?random"
                          th:if="${not #lists.isEmpty(product.images)}"
                          th:src="${product.images[0].url}"
-                         alt="Card image cap" height="286">
+                         alt="" height="286">
                     <img class="card-img-top" src="https://picsum.photos/100/180/?random"
                          th:if="${ #lists.isEmpty(product.images)}"
                          th:src="${product.imageUrl}"
-                         alt="Card image cap"  height="286">
+                         alt=""  height="286">
 
                     <div class="card-body">
                         <h5 class="card-title hide-text" th:text="${product.name}" >Card title</h5>
@@ -72,7 +72,7 @@
                         <p class="card-text hide-text" th:text="${product.description}">Cart Content</p>
                         <div class="row">
                             <a href="#" th:href="${product.originalUrl}" class="btn btn-primary col-md-4" style="margin: 2px;" target="_blank">Explore</a>
-                            <a href="#" th:href="@{'/product/' + ${product.id}}" class="btn btn-primary col-md-4"  style="margin: 2px;" sec:authorize="isAuthenticated()">Edit</a>
+                            <a href="#" th:href="@{'/product/' + ${product.id}}" class="btn btn-info col-md-4"  style="margin: 2px;" sec:authorize="isAuthenticated()">Show</a>
                             <form th:action="@{'/product/' + ${product.id} }" th:id="'deleteForm_' + ${product.id}" method="post" sec:authorize="isAuthenticated()">
                                 <a href="javascript:{}" class="btn btn-danger" style="margin-top: 2px; margin-bottom: 2px;" th:onclick="'remove(\'' + @{'/product/' + ${product.id}} +'\',\''+'deleteForm_'+${product.id} + '\');'">Delete</a>
                             </form>

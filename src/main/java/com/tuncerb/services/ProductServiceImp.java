@@ -5,7 +5,7 @@ import com.tuncerb.constants.PaginationConstants;
 import com.tuncerb.converters.ProductCommandToProduct;
 import com.tuncerb.converters.ProductToProductCommand;
 import com.tuncerb.domain.Product;
-import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.exceptions.ContentNotFoundException;
 import com.tuncerb.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +18,7 @@ import java.util.Optional;
  * Created by tuncer on 24/05/2018.
  */
 @Service
-public class ProductServiceImp implements ProductService{
+public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductCommandToProduct productCommandToProduct;
@@ -41,7 +41,7 @@ public class ProductServiceImp implements ProductService{
 
 
         if (!productOptional.isPresent()) {
-            throw new NotFoundException("Product Not Found. For ID value: " + id.toString() );
+            throw new ContentNotFoundException("Product Not Found. For ID value: " + id.toString());
         }
 
         return productOptional.get();
@@ -63,21 +63,24 @@ public class ProductServiceImp implements ProductService{
     }
 
     public Page<Product> paginatedProducts(int pageNumber, int pageSize) {
-        if(pageNumber < 1){
+        if (pageNumber < 1) {
             pageNumber = 1;
         }
-        PageRequest productPageReq = PageRequest.of(pageNumber - 1, pageSize != 0 ? pageSize: PaginationConstants.ITEM_COUNT);
+        int size = pageSize != 0 ? pageSize : PaginationConstants.ITEM_COUNT;
+        PageRequest productPageReq = PageRequest.of(pageNumber - 1, size);
 
         return productRepository.findAllByOrderByIdDesc(productPageReq);
     }
 
-    public Page<Product> paginatedCategoryProducts(Long categoryId,int pageNumber, int pageSize) {
-        if(pageNumber < 1){
+    public Page<Product> paginatedCategoryProducts(Long categoryId, int pageNumber, int pageSize) {
+        if (pageNumber < 1) {
             pageNumber = 1;
         }
-        PageRequest productPageReq = PageRequest.of(pageNumber -1, pageSize != 0 ? pageSize: PaginationConstants.ITEM_COUNT);
 
-        return productRepository.findAllByCategoryIdOrderByIdDesc(categoryId,productPageReq);
+        int size = pageSize != 0 ? pageSize : PaginationConstants.ITEM_COUNT;
+        PageRequest productPageReq = PageRequest.of(pageNumber - 1, size);
+
+        return productRepository.findAllByCategoryIdOrderByIdDesc(categoryId, productPageReq);
     }
 
     @Override
@@ -85,7 +88,7 @@ public class ProductServiceImp implements ProductService{
         Optional<Product> productOptional = productRepository.findById(id);
 
         if (!productOptional.isPresent()) {
-            throw new NotFoundException("Product Not Found. For ID value: " + id.toString() );
+            throw new ContentNotFoundException("Product Not Found. For ID value: " + String.valueOf(id));
         }
 
         productRepository.deleteById(id);

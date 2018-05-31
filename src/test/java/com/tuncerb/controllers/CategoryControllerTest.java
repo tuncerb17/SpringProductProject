@@ -3,7 +3,7 @@ package com.tuncerb.controllers;
 import com.tuncerb.domain.Category;
 import com.tuncerb.domain.Product;
 import com.tuncerb.exceptions.ControllerExceptionHandler;
-import com.tuncerb.exceptions.NotFoundException;
+import com.tuncerb.exceptions.ContentNotFoundException;
 import com.tuncerb.services.CategoryService;
 import com.tuncerb.services.ProductService;
 import org.junit.Before;
@@ -63,6 +63,7 @@ public class CategoryControllerTest {
 
     @Test
     public void testGetUnknownCategoryProductsPage() throws Exception {
+        when(categoryService.findById(anyLong())).thenThrow(ContentNotFoundException.class);
         mockMvc.perform(get("/category/-1/product"))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("404error"));

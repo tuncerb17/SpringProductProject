@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UsernameConstraint {
-    String message() default "Kullanıcı adı zaten kullanılmakta";
+    String message() default "Username is already in use";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

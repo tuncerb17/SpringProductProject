@@ -25,7 +25,7 @@
                 <h1 class="card-title" th:text="${product.name}">Product Name</h1>
             </div>
             <div class="col-md-2">
-                <a href="#" th:href="@{'/product/' + ${product.id} + '/update'}">Edit</a>
+                <a href="#" class="btn btn-warning" th:href="@{'/product/' + ${product.id} + '/update'}">Edit</a>
             </div>
         </div>
     </div>
@@ -44,6 +44,7 @@
                 </form>
             </div>
         </div>
+        <br/>
         <div class="row">
             <div class="col-md-3">
                 <h5>Description:</h5>
@@ -52,12 +53,34 @@
                 <p th:text="${(product.description)}">Product Description</p>
             </div>
         </div>
+        <br/>
         <div class="row">
             <div class="col-md-3">
                 <h5>Category:</h5>
             </div>
             <div class="col-md-9">
                 <p th:text="${(product.category.name)}">Product Category</p>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-3">
+                <h5>Original Url:</h5>
+            </div>
+            <div class="col-md-9">
+                <a href="#" th:href="${product.originalUrl}" class="btn btn-primary col-md-4" target="_blank">Explore</a>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row"    th:if="${product.imageUrl != null &&  product.imageUrl != '' }">
+            <div class="col-md-3">
+                <h5>Default Image:</h5>
+            </div>
+            <div class="col-md-9">
+                <img class="card-img-top" src="https://picsum.photos/100/180/?random"
+                     th:src="${product.imageUrl}"
+                     alt="Default Image" style="max-width: 300px;" >
             </div>
         </div>
     </div>
